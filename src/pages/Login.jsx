@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { EyeIcon, EyeSlashIcon, AcademicCapIcon } from '@heroicons/react/24/outline'
 import { useFormValidation } from '../hooks/useFormValidation'
 
-const Login = () => {
+const Login = ({ onLoginSuccess }) => {
   const {
     values,
     errors,
@@ -45,9 +45,13 @@ const Login = () => {
       })
       
       console.log('Login exitoso:', values)
-      // Aquí redirigirías al dashboard
-      alert('¡Login exitoso! Bienvenido al sistema.')
       reset()
+      
+      if (onLoginSuccess) {
+        onLoginSuccess({ email: values.email, name: 'Administrador' });
+      } else {
+        alert('¡Login exitoso! Bienvenido al sistema.')
+      }
       
     } catch (error) {
       setSubmitError(error)
@@ -101,7 +105,7 @@ const Login = () => {
                   className={`input-field pl-10 ${
                     errors.email && touched.email ? 'error' : ''
                   }`}
-                  placeholder="Correo electrónico"
+                  placeholder="admin@grademanager.com"
                   value={values.email}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -132,7 +136,7 @@ const Login = () => {
                   className={`input-field pl-10 pr-10 ${
                     errors.password && touched.password ? 'error' : ''
                   }`}
-                  placeholder="Contraseña"
+                  placeholder="admin123"
                   value={values.password}
                   onChange={handleChange}
                   onBlur={handleBlur}
