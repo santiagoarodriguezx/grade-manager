@@ -1,14 +1,47 @@
-/* CSS Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+@import "tailwindcss";
+
+:root {
+  /* Modern color palette using oklch */
+  --background: #f8fafc;
+  --foreground: #1e293b;
+  --card: #ffffff;
+  --card-foreground: #1e293b;
+  --popover: #ffffff;
+  --popover-foreground: #1e293b;
+  --primary: #10b981;
+  --primary-foreground: #ffffff;
+  --secondary: #6ee7b7;
+  --secondary-foreground: #ffffff;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+  --accent: #6ee7b7;
+  --accent-foreground: #ffffff;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: #e2e8f0;
+  --input: #ffffff;
+  --ring: rgba(16, 185, 129, 0.4);
+  --chart-1: #10b981;
+  --chart-2: #6ee7b7;
+  --chart-3: #1e293b;
+  --chart-4: #f59e0b;
+  --chart-5: #06b6d4;
+  --radius: 0.75rem;
 }
 
-body {
-  font-family: 'Inter', system-ui, sans-serif;
-  line-height: 1.6;
-  color: #333;
+@layer base {
+  * {
+    border-color: var(--border);
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: 'Inter', system-ui, sans-serif;
+    line-height: 1.6;
+  }
 }
 
 /* Utility Classes */
@@ -734,4 +767,89 @@ a:hover {
 /* Block elements */
 .block {
   display: block;
+}
+
+/* Added custom animations and gradients for beautiful dashboard */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(5, 150, 105, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(5, 150, 105, 0.5);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.glass-effect {
+  backdrop-filter: blur(16px);
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* Hide mobile header on desktop */
+@media (min-width: 1024px) {
+  .lg\:hidden {
+    display: none !important;
+  }
+}
+
+/* Show mobile header on mobile */
+@media (max-width: 1023px) {
+  .lg\:hidden {
+    display: block !important;
+  }
+}
+
+/* Sidebar Responsive Control */
+@media (max-width: 1023px) {
+  .sidebar-mobile {
+    position: fixed !important;
+    left: 0 !important;
+    top: 0 !important;
+    height: 100vh !important;
+    z-index: 50 !important;
+    transform: translateX(-100%) !important;
+    transition: transform 0.3s ease-in-out !important;
+  }
+  
+  .sidebar-mobile.open {
+    transform: translateX(0) !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .sidebar-mobile {
+    position: static !important;
+    transform: translateX(0) !important;
+  }
+  
+  .mobile-overlay {
+    display: none !important;
+  }
+}
+
+/* Mobile Overlay */
+@media (max-width: 1023px) {
+  .mobile-overlay {
+    display: block !important;
+  }
 }
