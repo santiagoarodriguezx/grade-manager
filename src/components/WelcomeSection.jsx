@@ -5,7 +5,7 @@ import {
   RocketLaunchIcon,
   AcademicCapIcon,
   UsersIcon,
-} from "@heroicons/react/24/outline"
+} from "@heroicons/react/24/outline";
 
 const WelcomeSection = () => {
   return (
@@ -51,11 +51,17 @@ const WelcomeSection = () => {
                 <SparklesIcon className="w-6 h-6 text-blue-400 absolute -top-2 -right-2 animate-pulse" />
               </div>
             </div>
-            <h1 className="text-5xl font-black mb-4 gradient-text text-shadow">Grade Manager</h1>
-            <p className="text-xl text-white/90 font-medium mb-6">Sistema Inteligente de Gestión Académica</p>
+            <h1 className="text-5xl font-black mb-4 gradient-text text-shadow">
+              Grade Manager
+            </h1>
+            <p className="text-xl text-white/90 font-medium mb-6">
+              Sistema Inteligente de Gestión Académica
+            </p>
             <div className="flex items-center justify-center space-x-2">
               <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse status-online"></div>
-              <span className="text-sm text-white/70 font-medium">Sistema Activo</span>
+              <span className="text-sm text-white/70 font-medium">
+                Sistema Activo
+              </span>
             </div>
           </div>
 
@@ -86,12 +92,18 @@ const WelcomeSection = () => {
                 className="flex items-center space-x-4 animate-fade-in-up card-hover"
                 style={{ animationDelay: `${0.2 + index * 0.1}s` }}
               >
-                <div className={`w-14 h-14 ${feature.gradient} rounded-2xl flex items-center justify-center shadow-lg`}>
+                <div
+                  className={`w-14 h-14 ${feature.gradient} rounded-2xl flex items-center justify-center shadow-lg`}
+                >
                   <feature.icon className="w-7 h-7 text-white" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-lg text-white">{feature.title}</h3>
-                  <p className="text-white/80 text-sm font-medium">{feature.description}</p>
+                  <h3 className="font-bold text-lg text-white">
+                    {feature.title}
+                  </h3>
+                  <p className="text-white/80 text-sm font-medium">
+                    {feature.description}
+                  </p>
                 </div>
               </div>
             ))}
@@ -104,12 +116,19 @@ const WelcomeSection = () => {
               { value: "150+", label: "Profesores", icon: AcademicCapIcon },
               { value: "98%", label: "Satisfacción", icon: ChartBarIcon },
             ].map((stat, index) => (
-              <div key={index} className="glass-card p-4 text-center card-hover">
+              <div
+                key={index}
+                className="glass-card p-4 text-center card-hover"
+              >
                 <div className="w-8 h-8 mx-auto mb-2 bg-blue-100 rounded-full flex items-center justify-center">
                   <stat.icon className="h-4 w-4 text-blue-600" />
                 </div>
-                <div className="text-2xl font-bold text-white mb-1">{stat.value}</div>
-                <div className="text-white/70 text-sm font-medium">{stat.label}</div>
+                <div className="text-2xl font-bold text-white mb-1">
+                  {stat.value}
+                </div>
+                <div className="text-white/70 text-sm font-medium">
+                  {stat.label}
+                </div>
               </div>
             ))}
           </div>
@@ -124,7 +143,9 @@ const WelcomeSection = () => {
                 <div className="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center">
                   <span className="text-white text-sm font-bold">GM</span>
                 </div>
-                <cite className="text-sm text-white/70 font-medium">Grade Manager Team</cite>
+                <cite className="text-sm text-white/70 font-medium">
+                  Grade Manager Team
+                </cite>
               </div>
             </div>
           </div>
@@ -132,13 +153,15 @@ const WelcomeSection = () => {
           {/* Floating action hint */}
           <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
             <div className="glass-card px-4 py-2 rounded-full">
-              <span className="text-sm text-white/80 font-medium">Inicia sesión para continuar →</span>
+              <span className="text-sm text-white/80 font-medium">
+                Inicia sesión para continuar →
+              </span>
             </div>
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default WelcomeSection
+export default WelcomeSection;

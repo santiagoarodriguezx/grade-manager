@@ -1,6 +1,14 @@
-import { useState } from 'react'
-import { EyeIcon, EyeSlashIcon, AcademicCapIcon } from '@heroicons/react/24/outline'
-import { useFormValidation } from '../hooks/useFormValidation'
+"use client";
+
+import { useState } from "react";
+import {
+  EyeIcon,
+  EyeSlashIcon,
+  SparklesIcon,
+  AcademicCapIcon,
+  CogIcon,
+} from "@heroicons/react/24/outline";
+import { useFormValidation } from "../hooks/useFormValidation";
 
 const Login = ({ onLoginSuccess }) => {
   const {
@@ -11,227 +19,334 @@ const Login = ({ onLoginSuccess }) => {
     handleChange,
     handleBlur,
     validateAll,
-    reset
+    reset,
   } = useFormValidation({
-    email: '',
-    password: ''
-  })
-  
-  const [showPassword, setShowPassword] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
-  const [submitError, setSubmitError] = useState('')
+    email: "",
+    password: "",
+  });
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [submitError, setSubmitError] = useState("");
+  const [userType, setUserType] = useState("estudiante"); // "estudiante" or "aprendiz"
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setSubmitError('')
-    
+    e.preventDefault();
+    setSubmitError("");
+
     if (!validateAll()) {
-      return
+      return;
     }
-    
-    setIsLoading(true)
-    
+
+    setIsLoading(true);
+
     try {
-      // Simulación de login
-      await new Promise((resolve, reject) => {
+      const result = await new Promise((resolve, reject) => {
         setTimeout(() => {
-          // Simulamos una validación básica
-          if (values.email === 'admin@grademanager.com' && values.password === 'admin123') {
-            resolve('Login exitoso')
-          } else {
-            reject('Credenciales incorrectas')
+          let isValidLogin = false;
+          let userData = {};
+
+          if (userType === "estudiante") {
+            // Credenciales para estudiantes
+            if (
+              values.email === "estudiante@grademanager.com" &&
+              values.password === "est123"
+            ) {
+              isValidLogin = true;
+              userData = {
+                email: values.email,
+                name: "Juan Pérez",
+                type: "estudiante",
+                role: "Estudiante",
+              };
+            }
+          } else if (userType === "aprendiz") {
+            // Credenciales para aprendices
+            if (
+              values.email === "aprendiz@grademanager.com" &&
+              values.password === "apr123"
+            ) {
+              isValidLogin = true;
+              userData = {
+                email: values.email,
+                name: "María González",
+                type: "aprendiz",
+                role: "Aprendiz",
+              };
+            }
           }
-        }, 2000)
-      })
-      
-      console.log('Login exitoso:', values)
-      reset()
-      
+
+          if (isValidLogin) {
+            resolve({ message: "Login exitoso", userData });
+          } else {
+            reject(`Credenciales incorrectas para ${userType}`);
+          }
+        }, 2000);
+      });
+
+      console.log("Login exitoso:", values, "Tipo:", userType);
+      reset();
+
       if (onLoginSuccess) {
-        onLoginSuccess({ email: values.email, name: 'Administrador' });
+        onLoginSuccess(result.userData);
       } else {
-        alert('¡Login exitoso! Bienvenido al sistema.')
+        alert(`¡Login exitoso! Bienvenido ${userType}.`);
       }
-      
     } catch (error) {
-      setSubmitError(error)
+      setSubmitError(error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
-    <div className="w-full max-w-md space-y-8 animate-fade-in">
-        {/* Header */}
-        <div className="text-center">
-          <div className="mx-auto h-20 w-20 bg-blue-gradient rounded-full flex items-center justify-center shadow-lg animate-slide-up">
-            <AcademicCapIcon className="h-10 w-10 text-white" />
-          </div>
-          <h2 className="mt-6 text-3xl font-bold text-gray-900 animate-slide-up">
-            Bienvenido a Grade Manager
-          </h2>
-          <p className="mt-2 text-sm text-gray-600 animate-slide-up">
-            Sistema de Gestión de Calificaciones
-          </p>
+    <div className="w-full max-w-md space-y-8 animate-fade-in-up">
+      {/* Header */}
+      <div className="text-center animate-scale-in">
+        <div className="mx-auto h-24 w-24 bg-gradient-primary rounded-3xl flex items-center justify-center shadow-2xl animate-pulse-glow mb-8">
+          <SparklesIcon className="h-12 w-12 text-white" />
         </div>
+        <h1 className="text-4xl font-bold gradient-text mb-4 text-shadow">
+          Grade Manager
+        </h1>
+        <p className="text-lg text-gray-600 font-medium">
+          Sistema Inteligente de Gestión Académica
+        </p>
+        <div className="w-20 h-1 bg-gradient-primary rounded-full mx-auto mt-4"></div>
+      </div>
 
-        {/* Form */}
-        <div className="card p-8 animate-slide-up">
-          <form className="space-y-6" onSubmit={handleSubmit}>
-            {/* Submit Error */}
-            {submitError && (
-              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm animate-slide-up">
-                <div className="flex items-center">
-                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  {submitError}
-                </div>
-              </div>
-            )}
-
-            {/* Email Field */}
-            <div>
-              <label htmlFor="email" className="sr-only">
-                Correo electrónico
-              </label>
-              <div className="relative">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  className={`input-field pl-10 ${
-                    errors.email && touched.email ? 'error' : ''
-                  }`}
-                  placeholder="admin@grademanager.com"
-                  value={values.email}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
-                  </svg>
-                </div>
-              </div>
-              {errors.email && touched.email && (
-                <p className="mt-1 text-sm text-red-600 animate-slide-up">{errors.email}</p>
-              )}
-            </div>
-
-            {/* Password Field */}
-            <div>
-              <label htmlFor="password" className="sr-only">
-                Contraseña
-              </label>
-              <div className="relative">
-                <input
-                  id="password"
-                  name="password"
-                  type={showPassword ? 'text' : 'password'}
-                  autoComplete="current-password"
-                  required
-                  className={`input-field pl-10 pr-10 ${
-                    errors.password && touched.password ? 'error' : ''
-                  }`}
-                  placeholder="admin123"
-                  value={values.password}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                  </svg>
-                </div>
-                <button
-                  type="button"
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  {showPassword ? (
-                    <EyeSlashIcon className="h-5 w-5 text-gray-400 hover:text-gray-600" />
-                  ) : (
-                    <EyeIcon className="h-5 w-5 text-gray-400 hover:text-gray-600" />
-                  )}
-                </button>
-              </div>
-              {errors.password && touched.password && (
-                <p className="mt-1 text-sm text-red-600 animate-slide-up">{errors.password}</p>
-              )}
-            </div>
-
-            {/* Remember me and Forgot password */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <input
-                  id="remember-me"
-                  name="remember-me"
-                  type="checkbox"
-                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                />
-                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
-                  Recordarme
-                </label>
-              </div>
-
-              <div className="text-sm">
-                <a href="#" className="font-medium text-blue-600 hover:text-blue-500 transition-colors">
-                  ¿Olvidaste tu contraseña?
-                </a>
-              </div>
-            </div>
-
-            {/* Submit button */}
-            <div>
-              <button
-                type="submit"
-                disabled={isLoading || !isValid}
-                className="btn-primary"
-              >
-                {isLoading ? (
-                  <div className="flex items-center">
-                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    Iniciando sesión...
-                  </div>
-                ) : (
-                  <>
-                    <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                      <svg className="h-5 w-5 text-blue-300 group-hover:text-blue-200" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
-                      </svg>
-                    </span>
-                    Iniciar Sesión
-                  </>
-                )}
-              </button>
-            </div>
-
-            {/* Register link */}
+      {/* User Type Selection */}
+      <div className="glass-card p-6 animate-fade-in-up">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">
+          Selecciona tu tipo de usuario
+        </h3>
+        <div className="grid grid-cols-2 gap-4">
+          <button
+            type="button"
+            onClick={() => setUserType("estudiante")}
+            className={`p-4 rounded-2xl transition-all duration-300 border-2 ${
+              userType === "estudiante"
+                ? "bg-gradient-primary border-purple-400 text-white shadow-lg neon-glow"
+                : "bg-gray-800/50 border-gray-600 text-gray-400 hover:border-gray-500 hover:bg-gray-700/50"
+            }`}
+          >
             <div className="text-center">
-              <p className="text-sm text-gray-600">
-                ¿No tienes una cuenta?{' '}
-                <a href="#" className="font-medium text-blue-600 hover:text-blue-500 transition-colors">
-                  Regístrate aquí
-                </a>
-              </p>
+              <div className="w-12 h-12 mx-auto mb-2 rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 flex items-center justify-center">
+                <AcademicCapIcon className="h-6 w-6 text-white" />
+              </div>
+              <div className="font-bold">Estudiante</div>
+              <div className="text-xs mt-1 opacity-75">
+                Acceso a calificaciones
+              </div>
             </div>
-          </form>
-        </div>
+          </button>
 
-        {/* Footer */}
-        <div className="text-center">
-          <p className="text-xs text-gray-500">
-            © 2025 Grade Manager. Todos los derechos reservados.
-          </p>
+          <button
+            type="button"
+            onClick={() => setUserType("aprendiz")}
+            className={`p-4 rounded-2xl transition-all duration-300 border-2 ${
+              userType === "aprendiz"
+                ? "bg-gradient-primary border-purple-400 text-white shadow-lg neon-glow"
+                : "bg-gray-800/50 border-gray-600 text-gray-400 hover:border-gray-500 hover:bg-gray-700/50"
+            }`}
+          >
+            <div className="text-center">
+              <div className="w-12 h-12 mx-auto mb-2 rounded-xl bg-gradient-to-r from-green-500 to-blue-500 flex items-center justify-center">
+                <CogIcon className="h-6 w-6 text-white" />
+              </div>
+              <div className="font-bold">Aprendiz</div>
+              <div className="text-xs mt-1 opacity-75">
+                Acceso especializado
+              </div>
+            </div>
+          </button>
         </div>
       </div>
-  )
-}
 
-export default Login
+      {/* Form */}
+      <div className="glass-card p-8 animate-fade-in-up stagger-1">
+        <form className="space-y-6" onSubmit={handleSubmit}>
+          {/* Submit Error */}
+          {submitError && (
+            <div className="bg-gradient-danger p-4 rounded-2xl text-white animate-scale-in">
+              <div className="flex items-center">
+                <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center mr-3">
+                  <span className="text-sm">!</span>
+                </div>
+                <span className="font-medium">{submitError}</span>
+              </div>
+            </div>
+          )}
+
+          {/* Email Field */}
+          <div className="space-y-2">
+            <label
+              htmlFor="email"
+              className="text-sm font-semibold text-gray-300 uppercase tracking-wider"
+            >
+              Correo Electrónico
+            </label>
+            <div className="relative">
+              <input
+                id="email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                required
+                className={`input-modern pl-12 ${
+                  errors.email && touched.email
+                    ? "border-red-500 focus:border-red-500"
+                    : ""
+                }`}
+                placeholder={
+                  userType === "estudiante"
+                    ? "estudiante@grademanager.com"
+                    : "aprendiz@grademanager.com"
+                }
+                value={values.email}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <div className="w-6 h-6 rounded-lg bg-gradient-primary flex items-center justify-center">
+                  <span className="text-white text-sm">@</span>
+                </div>
+              </div>
+            </div>
+            {errors.email && touched.email && (
+              <p className="text-sm text-red-400 animate-fade-in-up flex items-center">
+                <span className="w-4 h-4 rounded-full bg-red-500 flex items-center justify-center mr-2 text-xs">
+                  !
+                </span>
+                {errors.email}
+              </p>
+            )}
+          </div>
+
+          {/* Password Field */}
+          <div className="space-y-2">
+            <label
+              htmlFor="password"
+              className="text-sm font-semibold text-gray-300 uppercase tracking-wider"
+            >
+              Contraseña
+            </label>
+            <div className="relative">
+              <input
+                id="password"
+                name="password"
+                type={showPassword ? "text" : "password"}
+                autoComplete="current-password"
+                required
+                className={`input-modern pl-12 pr-12 ${
+                  errors.password && touched.password
+                    ? "border-red-500 focus:border-red-500"
+                    : ""
+                }`}
+                placeholder={userType === "estudiante" ? "est123" : "apr123"}
+                value={values.password}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <div className="w-6 h-6 rounded-lg bg-gradient-secondary flex items-center justify-center">
+                  <span className="text-white text-sm">*</span>
+                </div>
+              </div>
+              <button
+                type="button"
+                className="absolute inset-y-0 right-0 pr-4 flex items-center"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                <div className="w-8 h-8 rounded-lg bg-gray-800 hover:bg-gray-700 flex items-center justify-center transition-colors">
+                  {showPassword ? (
+                    <EyeSlashIcon className="h-4 w-4 text-gray-400" />
+                  ) : (
+                    <EyeIcon className="h-4 w-4 text-gray-400" />
+                  )}
+                </div>
+              </button>
+            </div>
+            {errors.password && touched.password && (
+              <p className="text-sm text-red-400 animate-fade-in-up flex items-center">
+                <span className="w-4 h-4 rounded-full bg-red-500 flex items-center justify-center mr-2 text-xs">
+                  !
+                </span>
+                {errors.password}
+              </p>
+            )}
+          </div>
+
+          {/* Remember me and Forgot password */}
+          <div className="flex items-center justify-between pt-2">
+            <label className="flex items-center cursor-pointer">
+              <input type="checkbox" className="sr-only" />
+              <div className="w-5 h-5 rounded-lg border-2 border-gray-600 flex items-center justify-center mr-3 transition-all">
+                <div className="w-3 h-3 rounded bg-gradient-primary opacity-0 transition-opacity"></div>
+              </div>
+              <span className="text-sm text-gray-400 font-medium">
+                Recordarme
+              </span>
+            </label>
+
+            <a
+              href="#"
+              className="text-sm font-semibold text-purple-400 hover:text-purple-300 transition-colors"
+            >
+              ¿Olvidaste tu contraseña?
+            </a>
+          </div>
+
+          {/* Submit button */}
+          <button
+            type="submit"
+            disabled={isLoading || !isValid}
+            className="btn-modern w-full py-4 text-lg font-bold disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isLoading ? (
+              <div className="flex items-center justify-center">
+                <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin mr-3"></div>
+                Iniciando sesión...
+              </div>
+            ) : (
+              <div className="flex items-center justify-center">
+                <SparklesIcon className="w-5 h-5 mr-2" />
+                Iniciar Sesión
+              </div>
+            )}
+          </button>
+
+          {/* Register link */}
+          <div className="text-center pt-4">
+            <div className="bg-gray-800/50 rounded-xl p-4 mb-4">
+              <h4 className="text-sm font-semibold text-gray-300 mb-2">
+                Credenciales de prueba:
+              </h4>
+              {userType === "estudiante" ? (
+                <div className="text-xs text-gray-400">
+                  <p>
+                    <strong>Email:</strong> estudiante@grademanager.com
+                  </p>
+                  <p>
+                    <strong>Contraseña:</strong> est123
+                  </p>
+                </div>
+              ) : (
+                <div className="text-xs text-gray-400">
+                  <p>
+                    <strong>Email:</strong> aprendiz@grademanager.com
+                  </p>
+                  <p>
+                    <strong>Contraseña:</strong> apr123
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default Login;

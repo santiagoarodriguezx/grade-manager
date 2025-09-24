@@ -1,39 +1,40 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
+import { useState, useEffect } from "react";
 import {
   ChartBarIcon,
   CalendarIcon,
   ChevronDownIcon,
-} from "@heroicons/react/24/outline"
+} from "@heroicons/react/24/outline";
+import Avatar from "../components/ui/Avatar";
 
 const StudentDashboard = ({ user, onNavigate }) => {
-  const [currentTime, setCurrentTime] = useState(new Date())
-  const [selectedTrimester, setSelectedTrimester] = useState("1")
+  const [currentTime, setCurrentTime] = useState(new Date());
+  const [selectedTrimester, setSelectedTrimester] = useState("1");
 
   // Test data - solo para mostrar como se ve
   const trimesters = [
     { id: "1", name: "Primer Trimestre", period: "2025-I", active: true },
     { id: "2", name: "Segundo Trimestre", period: "2025-II", active: false },
     { id: "3", name: "Tercer Trimestre", period: "2025-III", active: false },
-  ]
+  ];
 
   const testGrades = [
     { subject: "Programación Web", grade: 4.2, status: "Aprobado" },
-  ]
+  ];
 
   const testSchedule = [
     { time: "08:00 - 10:00", subject: "Programación Web", room: "Lab 101" },
-  ]
+  ];
 
   // Actualizar hora cada segundo
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentTime(new Date())
-    }, 1000)
+      setCurrentTime(new Date());
+    }, 1000);
 
-    return () => clearInterval(timer)
-  }, [])
+    return () => clearInterval(timer);
+  }, []);
 
   const formatDate = (date) => {
     return date.toLocaleDateString("es-ES", {
@@ -41,8 +42,8 @@ const StudentDashboard = ({ user, onNavigate }) => {
       year: "numeric",
       month: "long",
       day: "numeric",
-    })
-  }
+    });
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
@@ -52,16 +53,22 @@ const StudentDashboard = ({ user, onNavigate }) => {
           <div className="flex justify-between items-center py-6">
             <div>
               <h1 className="text-2xl font-bold text-gray-900">
-                ¡Hola, {user?.name || 'Estudiante'}!
+                ¡Hola, {user?.name || "Estudiante"}!
               </h1>
               <p className="text-gray-600">{formatDate(currentTime)}</p>
             </div>
 
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-6">
               <div className="text-right">
                 <p className="text-sm text-gray-600">Conectado como</p>
-                <p className="text-sm font-medium text-gray-900">{user?.role || 'Estudiante'}</p>
+                <p className="text-sm font-medium text-gray-900">
+                  {user?.role || "Estudiante"}
+                </p>
               </div>
+              <Avatar 
+                name={user?.name || "Estudiante"} 
+                size="md"
+              />
             </div>
           </div>
         </div>
@@ -72,10 +79,12 @@ const StudentDashboard = ({ user, onNavigate }) => {
         {/* Trimester Selector */}
         <div className="glass-card p-6 mb-8">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-gray-900">Seleccionar Trimestre</h3>
+            <h3 className="text-lg font-semibold text-gray-900">
+              Seleccionar Trimestre
+            </h3>
           </div>
           <div className="relative">
-            <select 
+            <select
               value={selectedTrimester}
               onChange={(e) => setSelectedTrimester(e.target.value)}
               className="w-full p-3 rounded-lg border border-gray-200 bg-white text-gray-900 font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 appearance-none cursor-pointer"
@@ -91,19 +100,21 @@ const StudentDashboard = ({ user, onNavigate }) => {
         </div>
 
         {/* Academic Info */}
-        <div className="glass-card p-6 mb-8 border border-blue-200 bg-blue-50">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Información Académica</h3>
+        <div className="glass-card p-6 mb-8 border border-blue-200" style={{backgroundColor: '#E8F0FE'}}>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            Información Académica
+          </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
               <p className="text-sm text-gray-600">Trimestre Actual</p>
               <p className="font-medium text-gray-900">
-                {trimesters.find(t => t.id === selectedTrimester)?.name}
+                {trimesters.find((t) => t.id === selectedTrimester)?.name}
               </p>
             </div>
             <div>
               <p className="text-sm text-gray-600">Período</p>
               <p className="font-medium text-gray-900">
-                {trimesters.find(t => t.id === selectedTrimester)?.period}
+                {trimesters.find((t) => t.id === selectedTrimester)?.period}
               </p>
             </div>
             <div>
@@ -118,18 +129,25 @@ const StudentDashboard = ({ user, onNavigate }) => {
           {/* Grades Card */}
           <div className="glass-card p-6">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">Mis Calificaciones</h3>
+              <h3 className="text-lg font-semibold text-gray-900">
+                Mis Calificaciones
+              </h3>
               <ChartBarIcon className="h-5 w-5 text-blue-600" />
             </div>
             <div className="space-y-4">
               {testGrades.map((grade, index) => (
-                <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                <div
+                  key={index}
+                  className="flex items-center justify-between p-4 bg-gray-50 rounded-lg"
+                >
                   <div>
                     <p className="font-medium text-gray-900">{grade.subject}</p>
                     <p className="text-sm text-gray-600">{grade.status}</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-2xl font-bold text-blue-600">{grade.grade}</p>
+                    <p className="text-2xl font-bold text-blue-600">
+                      {grade.grade}
+                    </p>
                     <p className="text-xs text-gray-500">sobre 5.0</p>
                   </div>
                 </div>
@@ -140,18 +158,27 @@ const StudentDashboard = ({ user, onNavigate }) => {
           {/* Schedule Card */}
           <div className="glass-card p-6">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">Horario de Hoy</h3>
+              <h3 className="text-lg font-semibold text-gray-900">
+                Horario de Hoy
+              </h3>
               <CalendarIcon className="h-5 w-5 text-green-600" />
             </div>
             <div className="space-y-4">
               {testSchedule.map((schedule, index) => (
-                <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                <div
+                  key={index}
+                  className="flex items-center justify-between p-4 bg-gray-50 rounded-lg"
+                >
                   <div>
-                    <p className="font-medium text-gray-900">{schedule.subject}</p>
+                    <p className="font-medium text-gray-900">
+                      {schedule.subject}
+                    </p>
                     <p className="text-sm text-gray-600">{schedule.room}</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm font-medium text-gray-900">{schedule.time}</p>
+                    <p className="text-sm font-medium text-gray-900">
+                      {schedule.time}
+                    </p>
                   </div>
                 </div>
               ))}
@@ -161,30 +188,38 @@ const StudentDashboard = ({ user, onNavigate }) => {
 
         {/* Quick Actions */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-          <button 
-            onClick={() => onNavigate && onNavigate('allGrades')}
+          <button
+            onClick={() => onNavigate && onNavigate("allGrades")}
             className="glass-card p-6 text-center hover:shadow-lg transition-shadow"
           >
-            <div className="w-12 h-12 mx-auto bg-blue-100 rounded-full flex items-center justify-center mb-4">
-              <ChartBarIcon className="h-6 w-6 text-blue-600" />
+            <div className="w-12 h-12 mx-auto rounded-full flex items-center justify-center mb-4" style={{backgroundColor: '#E8F0FE'}}>
+              <ChartBarIcon className="h-6 w-6" style={{color: '#1A73E8'}} />
             </div>
-            <h4 className="font-semibold text-gray-900 mb-2">Ver Todas las Calificaciones</h4>
-            <p className="text-sm text-gray-600">Consulta tu historial académico completo</p>
+            <h4 className="font-semibold text-gray-900 mb-2">
+              Ver Todas las Calificaciones
+            </h4>
+            <p className="text-sm text-gray-600">
+              Consulta tu historial académico completo
+            </p>
           </button>
-          <button 
-            onClick={() => onNavigate && onNavigate('fullSchedule')}
+          <button
+            onClick={() => onNavigate && onNavigate("fullSchedule")}
             className="glass-card p-6 text-center hover:shadow-lg transition-shadow"
           >
-            <div className="w-12 h-12 mx-auto bg-blue-100 rounded-full flex items-center justify-center mb-4">
-              <CalendarIcon className="h-6 w-6 text-blue-600" />
+            <div className="w-12 h-12 mx-auto rounded-full flex items-center justify-center mb-4" style={{backgroundColor: '#E8F0FE'}}>
+              <CalendarIcon className="h-6 w-6" style={{color: '#1A73E8'}} />
             </div>
-            <h4 className="font-semibold text-gray-900 mb-2">Horario Completo</h4>
-            <p className="text-sm text-gray-600">Ve tu horario semanal detallado</p>
+            <h4 className="font-semibold text-gray-900 mb-2">
+              Horario Completo
+            </h4>
+            <p className="text-sm text-gray-600">
+              Ve tu horario semanal detallado
+            </p>
           </button>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default StudentDashboard
+export default StudentDashboard;

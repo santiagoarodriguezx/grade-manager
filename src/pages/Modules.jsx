@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import { AcademicCapIcon, BookOpenIcon } from "@heroicons/react/24/outline"
+import { AcademicCapIcon, BookOpenIcon } from "@heroicons/react/24/outline";
 
 const Modules = () => {
   return (
@@ -10,8 +10,12 @@ const Modules = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Módulos Académicos</h1>
-              <p className="text-gray-600">Gestión de contenidos y materiales educativos</p>
+              <h1 className="text-2xl font-bold text-gray-900">
+                Módulos Académicos
+              </h1>
+              <p className="text-gray-600">
+                Gestión de contenidos y materiales educativos
+              </p>
             </div>
             <BookOpenIcon className="h-8 w-8 text-gray-400" />
           </div>
@@ -24,17 +28,21 @@ const Modules = () => {
           <div className="w-16 h-16 mx-auto bg-orange-100 rounded-full flex items-center justify-center mb-6">
             <AcademicCapIcon className="h-8 w-8 text-orange-600" />
           </div>
-          <h3 className="text-xl font-semibold text-gray-900 mb-2">Gestión de Módulos</h3>
+          <h3 className="text-xl font-semibold text-gray-900 mb-2">
+            Gestión de Módulos
+          </h3>
           <p className="text-gray-600 mb-6">
-            Esta sección está en desarrollo. Aquí podrás gestionar los módulos académicos y materiales educativos.
+            Esta sección está en desarrollo. Aquí podrás gestionar los módulos
+            académicos y materiales educativos.
           </p>
           <div className="text-sm text-gray-500">
-            Próximamente: Creación de módulos, gestión de contenidos, asignación de materiales y más.
+            Próximamente: Creación de módulos, gestión de contenidos, asignación
+            de materiales y más.
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Modules
+export default Modules;

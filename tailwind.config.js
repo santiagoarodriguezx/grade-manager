@@ -3,43 +3,61 @@ export default {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+        "*.{js,ts,jsx,tsx,mdx}"
+    ],
   theme: {
     extend: {
       colors: {
         background: '#f8fafc',
-        foreground: '#1e293b',
+        foreground: '#5f6368',
         card: {
           DEFAULT: '#ffffff',
-          foreground: '#1e293b',
+          foreground: '#5f6368',
         },
         primary: {
-          DEFAULT: '#10b981',
+          DEFAULT: '#1A73E8',
           foreground: '#ffffff',
+          hover: '#0F5BCC',
         },
         secondary: {
-          DEFAULT: '#6ee7b7',
-          foreground: '#ffffff',
+          DEFAULT: '#E8F0FE',
+          foreground: '#5f6368',
         },
         muted: {
           DEFAULT: '#f1f5f9',
-          foreground: '#64748b',
+          foreground: '#5f6368',
         },
         accent: {
-          DEFAULT: '#6ee7b7',
+          DEFAULT: '#1A73E8',
+          foreground: '#ffffff',
+        },
+        success: {
+          DEFAULT: '#34A853',
+          foreground: '#ffffff',
+        },
+        error: {
+          DEFAULT: '#EA4335',
           foreground: '#ffffff',
         },
         destructive: {
-          DEFAULT: '#ef4444',
+          DEFAULT: '#EA4335',
           foreground: '#ffffff',
+        },
+        warning: {
+          DEFAULT: '#F9AB00',
+          foreground: '#5f6368',
+        },
+        neutral: {
+          DEFAULT: '#5f6368',
+          light: '#ffffff',
         },
         border: '#e2e8f0',
         chart: {
-          '1': '#10b981',
-          '2': '#6ee7b7',
-          '3': '#1e293b',
-          '4': '#f59e0b',
-          '5': '#06b6d4',
+          '1': '#1A73E8',
+          '2': '#34A853',
+          '3': '#F9AB00',
+          '4': '#EA4335',
+          '5': '#E8F0FE',
         },
       },
       borderRadius: {
@@ -55,11 +73,11 @@ export default {
         'pulse-glow': {
           '0%, 100%': { 
             transform: 'scale(1)',
-            boxShadow: '0 0 20px rgba(16, 185, 129, 0.4)'
+            boxShadow: '0 0 20px rgba(26, 115, 232, 0.4)'
           },
           '50%': { 
             transform: 'scale(1.05)',
-            boxShadow: '0 0 30px rgba(16, 185, 129, 0.6)'
+            boxShadow: '0 0 30px rgba(26, 115, 232, 0.6)'
           },
         },
       },
