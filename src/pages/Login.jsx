@@ -28,7 +28,7 @@ const Login = ({ onLoginSuccess }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [submitError, setSubmitError] = useState("");
-  const [userType, setUserType] = useState("estudiante"); // "estudiante" or "aprendiz"
+  const [userType, setUserType] = useState("estudiante"); // "estudiante" or "instructor"
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -60,18 +60,18 @@ const Login = ({ onLoginSuccess }) => {
                 role: "Estudiante",
               };
             }
-          } else if (userType === "aprendiz") {
-            // Credenciales para aprendices
+          } else if (userType === "instructor") {
+            // Credenciales para instructores
             if (
-              values.email === "aprendiz@grademanager.com" &&
-              values.password === "apr123"
+              values.email === "instructor@grademanager.com" &&
+              values.password === "ins123"
             ) {
               isValidLogin = true;
               userData = {
                 email: values.email,
                 name: "María González",
-                type: "aprendiz",
-                role: "Aprendiz",
+                type: "instructor",
+                role: "Instructor",
               };
             }
           }
@@ -143,9 +143,9 @@ const Login = ({ onLoginSuccess }) => {
 
           <button
             type="button"
-            onClick={() => setUserType("aprendiz")}
+            onClick={() => setUserType("instructor")}
             className={`p-4 rounded-2xl transition-all duration-300 border-2 ${
-              userType === "aprendiz"
+              userType === "instructor"
                 ? "bg-gradient-primary border-purple-400 text-white shadow-lg neon-glow"
                 : "bg-gray-800/50 border-gray-600 text-gray-400 hover:border-gray-500 hover:bg-gray-700/50"
             }`}
@@ -154,7 +154,7 @@ const Login = ({ onLoginSuccess }) => {
               <div className="w-12 h-12 mx-auto mb-2 rounded-xl bg-gradient-to-r from-green-500 to-blue-500 flex items-center justify-center">
                 <CogIcon className="h-6 w-6 text-white" />
               </div>
-              <div className="font-bold">Aprendiz</div>
+              <div className="font-bold">Instructor</div>
               <div className="text-xs mt-1 opacity-75">
                 Acceso especializado
               </div>
@@ -201,7 +201,7 @@ const Login = ({ onLoginSuccess }) => {
                 placeholder={
                   userType === "estudiante"
                     ? "estudiante@grademanager.com"
-                    : "aprendiz@grademanager.com"
+                    : "instructor@grademanager.com"
                 }
                 value={values.email}
                 onChange={handleChange}
@@ -243,7 +243,7 @@ const Login = ({ onLoginSuccess }) => {
                     ? "border-red-500 focus:border-red-500"
                     : ""
                 }`}
-                placeholder={userType === "estudiante" ? "est123" : "apr123"}
+                placeholder={userType === "estudiante" ? "est123" : "ins123"}
                 value={values.password}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -334,10 +334,10 @@ const Login = ({ onLoginSuccess }) => {
               ) : (
                 <div className="text-xs text-gray-400">
                   <p>
-                    <strong>Email:</strong> aprendiz@grademanager.com
+                    <strong>Email:</strong> instructor@grademanager.com
                   </p>
                   <p>
-                    <strong>Contraseña:</strong> apr123
+                    <strong>Contraseña:</strong> ins123
                   </p>
                 </div>
               )}
