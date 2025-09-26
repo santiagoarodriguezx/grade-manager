@@ -87,10 +87,18 @@ const Sidebar = ({ user, onLogout, onNavigate, currentPage, userType }) => {
     },
   ];
 
-  const menuItems =
-    userType === "estudiante" ? studentMenuItems : teacherMenuItems;
+  console.log("  - userType:", userType);
+  console.log("  - currentPage:", currentPage);
+  console.log("  - teacherMenuItems:", teacherMenuItems);
+
+  const menuItems = userType === "estudiante" ? studentMenuItems : teacherMenuItems;
+  
+  console.log("  - menuItems seleccionado:", menuItems);
 
   const handleNavigation = (page) => {
+    console.log("  - Navegando a:", page);
+    console.log("  - currentPage actual:", currentPage);
+    console.log("  - userType:", userType);
     onNavigate(page);
     setSidebarOpen(false);
   };
