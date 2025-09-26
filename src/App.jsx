@@ -65,9 +65,10 @@ const AppContent = () => {
         {renderStudentPage()}
       </DashboardLayout>
     );
-  } else if (currentUser.type === "aprendiz") {
+  } else if (currentUser.type === "instructor") {
     // Navegación para profesores
     const renderTeacherPage = () => {
+      console.log("📱 renderTeacherPage - currentPage:", currentPage);
       switch (currentPage) {
         case "newGrade":
           return <NewGrade />;
@@ -80,6 +81,7 @@ const AppContent = () => {
         case "settings":
           return <Settings user={currentUser} />;
         default:
+          console.log("🏠 Cargando TeacherDashboard por defecto"); // ← AGREGAR
           return (
             <TeacherDashboard
               user={currentUser}
@@ -95,7 +97,7 @@ const AppContent = () => {
         onLogout={() => setCurrentUser(null)}
         onNavigate={(page) => setCurrentPage(page)}
         currentPage={currentPage}
-        userType="aprendiz"
+        userType="instructor"
       >
         {renderTeacherPage()}
       </DashboardLayout>
